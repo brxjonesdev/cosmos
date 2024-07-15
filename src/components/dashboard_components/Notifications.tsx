@@ -10,19 +10,19 @@ import {
   
 
 export default function Notifications() {
+  const notifications = []
   return (
-    <Card className='bg-purple-400 h-full'>
+    <Card className='h-full flex flex-col'>
         <CardHeader>
             <CardTitle>Notifications</CardTitle>
+            <CardDescription>View your latest notifications here.</CardDescription>
         </CardHeader>
-        <CardContent>
-        <p>Notification 1</p>
-            <p>Notification 2</p>
-            <p>Notification 3</p>
+        <CardContent className='overflow-y-scroll flex-grow border-2 m-6 mt-0 space-y-4 py-6 bg-black/10 rounded-md'>
+        {notifications.length === 0 &&
+        <div className='text-center text-lg h-full flex flex-col items-center justify-center'>
+          <p className='text-sm text-black/30'>No Notifications Yet. Stay tuned!</p>
+          </div>}
         </CardContent>
-        <CardFooter>
-            <button>View all</button>
-        </CardFooter>
     </Card>
   )
 }

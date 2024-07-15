@@ -12,14 +12,18 @@ import {
   
 
 export default function CosmosAIButton() {
+  const updates = []
   return (
-    <Card className='bg-red-400 h-full'>
+    <Card className=' h-full flex flex-col'>
         <CardHeader>
-            <CardTitle>Create Update</CardTitle>
+            <CardTitle className='text-3xl'>Create Update</CardTitle>
             <CardDescription>Create repo updates manually or with CosmosAI</CardDescription>
         </CardHeader>
-        <CardContent>
-       <Button>AI!</Button>
+        <CardContent className='overflow-y-scroll flex-grow border-2 m-6 mt-0 space-y-4 py-6 bg-black/10 rounded-md'>
+        {updates.length === 0 && 
+        <div className='text-center text-lg h-full flex flex-col items-center justify-center'>
+          <p className='text-sm text-black/30'>No Updates Yet. Go code something!</p>
+          </div>}
         </CardContent>
     </Card>
   )

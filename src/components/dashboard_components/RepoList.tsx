@@ -12,6 +12,7 @@ import {
   import { fetchGithubRepos } from '@/utils/github'
   import { redirect } from 'next/navigation'
 import Repo from '../OOCs/repo'
+import { Button } from '../ui/button'
 
 
 
@@ -130,53 +131,28 @@ export default async function RepoList() {
   if (error || !user) {
     redirect('/')
   }
+  const CosmosRepos: SimpleRepo[] = [
 
-  async function getGitHubData() {
-    const { data, error } = await supabase.auth.getSession()
-    if (error) {
-      throw new Error(error.message)
-    }
-    const accessToken = data.session?.provider_token
-    if (!accessToken) {
-      throw new Error('No access token found')
-    }
-    const response = await fetch('https://api.github.com/users/brxjonesdev/repos', {
-      headers: {
-        Authorization: `token ${accessToken}`,
-      },
-    })
-    if (!response.ok) {
-      throw new Error('Failed to fetch GitHub data')
-    }
-    const githubData = await response.json()
-    return githubData
-  }
-  const githubData = await getGitHubData();
-  const CosmosRepos: SimpleRepo[] = githubData.map((repo: any) => {
-    return {
-      name: repo.name,
-      description: repo.description,
-      url: repo.html_url,
-      lastUpdate: {
-        timestamp: Date.parse(repo.updated_at),
-        type: "commit",
-        description: `Last updated at ${repo.updated_at}`,
-      },
-    };
-  });
-
-  
+  ]
   return (
-    <Card className='h-full max-h-[500px] flex flex-col border-none bg-white'>
+    <Card className='h-[500px] flex flex-col border-none bg-white'>
+      <div className='flex justify-between'>
         <CardHeader className='pb-0'>
-            <CardTitle className='text-4xl'>Your Repos</CardTitle>
-            <CardDescription className=''>You have {CosmosRepos.length} repos available to be used</CardDescription>
+            <CardTitle className='text-3xl'>Welcome In, User</CardTitle>
+            <CardDescription className=''>You have {CosmosRepos.length !== 0 ? CosmosRepos.length : "no" } repo{CosmosRepos.length == 1 ? "" : "s"} connected to Cosmos. </CardDescription>
         </CardHeader>
-        <CardContent className='overflow-y-scroll flex-grow border-2 m-6 space-y-4 py-6 bg-black/10 rounded-md'>
+        <CardContent className='py-0 self-end '>
+            <Button className='bg-black/80' >Connect Repo to Cosmos</Button>
+        </CardContent>
+        </div>
+        <CardContent className='overflow-y-scroll flex-grow border-2 m-6 space-y-4 py-6 bg-black/10 rounded-md '>
         {CosmosRepos.map((repo) => (
-          <Repo {...repo} key={repo.name} />
-          
+          <Repo {...repo} key={repo.name} /> 
         ))}
+        {CosmosRepos.length === 0 && 
+        <div className='text-center text-lg h-full flex flex-col items-center justify-center'>
+          <p className='text-sm text-black/30'>No Repos Available</p>
+          </div>}
         </CardContent>
     </Card>
   )
