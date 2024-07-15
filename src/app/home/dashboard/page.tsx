@@ -1,6 +1,11 @@
 import React from 'react'
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
+import RepoList from '@/components/dashboard_components/RepoList';
+import QuickIssuesList from '@/components/dashboard_components/IssuesList';
+import CosmosAIButton from '@/components/dashboard_components/CosmosAIButton';
+import Notifications from '@/components/dashboard_components/Notifications';
+import CosmosPomodoro from '@/components/dashboard_components/CosmosPomodoro';
 
 type GitHubRepository = {
   id: number;
@@ -104,46 +109,43 @@ type GitHubRepository = {
 };
 
 
-export default async function page() {
+export default async function DashboardHomepage() {
   const supabase = createClient()
   const { data: user, error } = await supabase.auth.getUser()
   if (error || !user) {
     redirect('/')
   }
-  async function getGitHubData() {
-    const { data, error } = await supabase.auth.getSession()
-    if (error) {
-      throw new Error(error.message)
-    }
-    const accessToken = data.session?.provider_token
-    if (!accessToken) {
-      throw new Error('No access token found')
-    }
-    const response = await fetch('https://api.github.com/users/brxjonesdev/repos', {
-      headers: {
-        Authorization: `token ${accessToken}`,
-      },
-    })
-    if (!response.ok) {
-      throw new Error('Failed to fetch GitHub data')
-    }
-    const githubData = await response.json()
-    return githubData
-  }
-  const githubData: GitHubRepository[] = await getGitHubData()
+  // async function getGitHubData() {
+  //   const { data, error } = await supabase.auth.getSession()
+  //   if (error) {
+  //     throw new Error(error.message)
+  //   }
+  //   const accessToken = data.session?.provider_token
+  //   if (!accessToken) {
+  //     throw new Error('No access token found')
+  //   }
+  //   const response = await fetch('https://api.github.com/users/brxjonesdev/repos', {
+  //     headers: {
+  //       Authorization: `token ${accessToken}`,
+  //     },
+  //   })
+  //   if (!response.ok) {
+  //     throw new Error('Failed to fetch GitHub data')
+  //   }
+  //   const githubData = await response.json()
+  //   return githubData
+  // }
+  // const githubData: GitHubRepository[] = await getGitHubData()
   
-  console.log(githubData.map((repo) => repo.name))
+  // console.log(githubData.map((repo) => repo.name))
   return (
     
-    <div>
-      {githubData.map((repo) => (
-        <div key={repo.id}>
-          <h2>{repo.name}</h2>
-          <p>{repo.description}</p>
-        </div>
-      ))
-          
-          }
-    </div>
+    <div className="grid grid-cols-12 grid-rows-7 gap-4 w-full flex-grow pb-8 px-4">
+    <div className="col-span-6 row-span-4"><RepoList/></div>
+    <div className="col-span-3 row-span-3 col-start-1 row-start-5"><CosmosAIButton/></div>
+    <div className="col-span-6 row-span-3 col-start-7 row-start-1"><QuickIssuesList/></div>
+    <div className="col-span-5 row-span-3 col-start-4 row-start-5"><Notifications/></div>
+    <div className="col-span-4 row-span-4 col-start-9 row-start-4"><CosmosPomodoro/></div>
+</div>
   )
 }

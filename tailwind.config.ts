@@ -18,6 +18,9 @@ const config = {
       },
     },
     extend: {
+      fontFamily:{
+        cosmic: ['var(--font-cosmic)'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
