@@ -10,6 +10,12 @@ import {
   
 
 export default function QuickIssuesList() {
+{/*
+  Issues will pull data from the Github API
+  We will get all issues that are assigned to the user, we might have to add an "auto-assign" feature.
+  
+
+*/}
   return (
     <Card className='bg-green-400 h-full'>
         <CardHeader>

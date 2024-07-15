@@ -22,6 +22,11 @@ const config = {
         cosmic: ['var(--font-cosmic)'],
       },
       colors: {
+'appText': 'hsl(0, 0%, 89%)',
+ 'appBackground': 'hsl(60, 1%, 14%)',
+ 'africanPurple': 'hsl(312, 23%, 38%)',
+ 'chinesePurple': 'hsl(306, 12%, 55%)',
+ 'starGold': 'hsl(43, 59%, 28%)',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

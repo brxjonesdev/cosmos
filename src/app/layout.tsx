@@ -5,7 +5,7 @@ import localFont from 'next/font/local'
 
 const inter = Inter({ subsets: ["latin"] });
 const cosmic = localFont({
-  src: "./fonts/cosmic.ttf",
+  src: "../fonts/cosmic.ttf",
   variable: '--font-cosmic',
 })
 
@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} ${cosmic.variable}`}>{children}</body>
+      <body className={`${inter.className} ${cosmic.variable} bg-appBackground`}>{children}</body>
     </html>
   );
 }

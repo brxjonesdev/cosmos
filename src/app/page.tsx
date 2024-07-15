@@ -1,4 +1,4 @@
-import LoginButton from "@/components/custom_components/login_button";
+import LoginButton from "@/components/OOCs/login_button";
 import Image from "next/image";
 
 

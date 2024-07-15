@@ -7,22 +7,177 @@ import {
     CardHeader,
     CardTitle,
   } from "@/components/ui/card"
+  import {SimpleRepo} from "@/types/type_index"
+  import { createClient } from '@/lib/supabase/server'
+  import { fetchGithubRepos } from '@/utils/github'
+  import { redirect } from 'next/navigation'
+import Repo from '../OOCs/repo'
+
+
+
+{/*
+  Using this component, users can view a list of their repositories.
+  these cards link to thier kanban boards, and display the last update to the repository.
+*/}
+
+type GitHubRepository = {
+  id: number;
+  node_id: string;
+  name: string;
+  full_name: string;
+  private: boolean;
+  owner: {
+    login: string;
+    id: number;
+    node_id: string;
+    avatar_url: string;
+    gravatar_id: string;
+    url: string;
+    html_url: string;
+    followers_url: string;
+    following_url: string;
+    gists_url: string;
+    starred_url: string;
+    subscriptions_url: string;
+    organizations_url: string;
+    repos_url: string;
+    events_url: string;
+    received_events_url: string;
+    type: string;
+    site_admin: boolean;
+  };
+  html_url: string;
+  description: string;
+  fork: boolean;
+  url: string;
+  forks_url: string;
+  keys_url: string;
+  collaborators_url: string;
+  teams_url: string;
+  hooks_url: string;
+  issue_events_url: string;
+  events_url: string;
+  assignees_url: string;
+  branches_url: string;
+  tags_url: string;
+  blobs_url: string;
+  git_tags_url: string;
+  git_refs_url: string;
+  trees_url: string;
+  statuses_url: string;
+  languages_url: string;
+  stargazers_url: string;
+  contributors_url: string;
+  subscribers_url: string;
+  subscription_url: string;
+  commits_url: string;
+  git_commits_url: string;
+  comments_url: string;
+  issue_comment_url: string;
+  contents_url: string;
+  compare_url: string;
+  merges_url: string;
+  archive_url: string;
+  downloads_url: string;
+  issues_url: string;
+  pulls_url: string;
+  milestones_url: string;
+  notifications_url: string;
+  labels_url: string;
+  releases_url: string;
+  deployments_url: string;
+  created_at: string;
+  updated_at: string;
+  pushed_at: string;
+  git_url: string;
+  ssh_url: string;
+  clone_url: string;
+  svn_url: string;
+  homepage: string | null;
+  size: number;
+  stargazers_count: number;
+  watchers_count: number;
+  language: string | null;
+  has_issues: boolean;
+  has_projects: boolean;
+  has_downloads: boolean;
+  has_wiki: boolean;
+  has_pages: boolean;
+  has_discussions: boolean;
+  forks_count: number;
+  mirror_url: string | null;
+  archived: boolean;
+  disabled: boolean;
+  open_issues_count: number;
+  license: string | null;
+  allow_forking: boolean;
+  is_template: boolean;
+  web_commit_signoff_required: boolean;
+  topics: string[];
+  visibility: string;
+  forks: number;
+  open_issues: number;
+  watchers: number;
+  default_branch: string;
+};
+
+
   
 
-export default function RepoList() {
+export default async function RepoList() {
+  const supabase = createClient()
+  const { data: user, error } = await supabase.auth.getUser()
+  if (error || !user) {
+    redirect('/')
+  }
+
+  async function getGitHubData() {
+    const { data, error } = await supabase.auth.getSession()
+    if (error) {
+      throw new Error(error.message)
+    }
+    const accessToken = data.session?.provider_token
+    if (!accessToken) {
+      throw new Error('No access token found')
+    }
+    const response = await fetch('https://api.github.com/users/brxjonesdev/repos', {
+      headers: {
+        Authorization: `token ${accessToken}`,
+      },
+    })
+    if (!response.ok) {
+      throw new Error('Failed to fetch GitHub data')
+    }
+    const githubData = await response.json()
+    return githubData
+  }
+  const githubData = await getGitHubData();
+  const CosmosRepos: SimpleRepo[] = githubData.map((repo: any) => {
+    return {
+      name: repo.name,
+      description: repo.description,
+      url: repo.html_url,
+      lastUpdate: {
+        timestamp: Date.parse(repo.updated_at),
+        type: "commit",
+        description: `Last updated at ${repo.updated_at}`,
+      },
+    };
+  });
+
+  
   return (
-    <Card className='bg-black h-full'>
-        <CardHeader>
-            <CardTitle>Repo List</CardTitle>
+    <Card className='h-full max-h-[500px] flex flex-col border-none bg-white'>
+        <CardHeader className='pb-0'>
+            <CardTitle className='text-4xl'>Your Repos</CardTitle>
+            <CardDescription className=''>You have {CosmosRepos.length} repos available to be used</CardDescription>
         </CardHeader>
-        <CardContent>
-        <p>Issue 1</p>
-            <p>Issue 2</p>
-            <p>Issue 3</p>
+        <CardContent className='overflow-y-scroll flex-grow border-2 m-6 space-y-4 py-6 bg-black/10 rounded-md'>
+        {CosmosRepos.map((repo) => (
+          <Repo {...repo} key={repo.name} />
+          
+        ))}
         </CardContent>
-        <CardFooter>
-            <button>View all</button>
-        </CardFooter>
     </Card>
   )
 }

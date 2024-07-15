@@ -24,7 +24,7 @@ import {
 
 export default function Navbar() {
   return (
-    <section className='flex items-center px-4 border-2 mb-4 justify-between'>
+    <section className='flex items-center px-4 mb-4 justify-between'>
         <div className='flex gap-2'>
         {/* <div className='bg-purple-400 rounded-sm flex items-center justify-center'>
             <div className='p-1 text-xs'>
@@ -55,7 +55,7 @@ export default function Navbar() {
       </NavigationMenuContent>
     </NavigationMenuItem>
     <NavigationMenuItem>
-      <NavigationMenuTrigger>ISK yet</NavigationMenuTrigger>
+      <NavigationMenuTrigger>ISK</NavigationMenuTrigger>
       <NavigationMenuContent>
         <Card>
             <CardHeader>
