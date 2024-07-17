@@ -1,13 +1,17 @@
 export type SimpleRepo = {
     name: string;
+    repo_name?: string;
     description: string;
+    repo_description?: string;
     url: string;
     owner: string;
+    repo_owner?: string;
     lastUpdate?: {
         timestamp: number;
         type: "commit" | "release" | "issue" | "pull_request";
         description: string;
     };
+    origin: string;
 }
 
 export type GitHubRepository = {

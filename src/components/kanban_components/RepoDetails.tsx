@@ -7,29 +7,29 @@ import {
     CardHeader,
     CardTitle,
   } from "@/components/ui/card"
-import { createClient } from '@/lib/supabase/server'
-  
 
-export default async function RepoDetails({username, repo}: {username: string, repo: string}) {
-  const supabase = createClient()
-  const { data, error } = await supabase.from("Repos").select().eq("repo_owner", username).eq("repo_name", repo)
-  if (error) {
-    console.log(error)
-    return
-  }
-  const repoDetails = data[0]
+
+export default async function RepoDetails({details}: {details: {
+  id: number,
+  created_at: string,
+  repo_name: string,
+  repo_owner: string,
+  repo_description: string
+}}) {
+ 
   return (
     <Card className='h-full'>
   <CardHeader>
-    <CardTitle></CardTitle>
-    <CardDescription></CardDescription>
+    <CardTitle>
+     {details.repo_name}
+    </CardTitle>
+    <CardDescription>
+      {details.repo_owner}
+    </CardDescription>
   </CardHeader>
   <CardContent>
-    <p>Card Content</p>
-  </CardContent>
-  <CardFooter>
-    <p>Card Footer</p>
-  </CardFooter>
+    <p>{details.repo_description}</p>
+  </CardContent> 
 </Card>
 
   )
