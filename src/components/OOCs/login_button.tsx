@@ -1,25 +1,23 @@
-"use client"
-import React from 'react'
-import { Button } from "@/components/ui/button"
-import { createClient } from '@/lib/supabase/client'
-
+'use client';
+import React from 'react';
+import { Button } from '@/components/ui/button';
+import { createClient } from '@/lib/supabase/client';
 
 export default function LoginButton() {
-  const supabase = createClient()
+  const supabase = createClient();
   return (
-
-      <Button 
+    <Button
       variant="outline"
-      onClick={async() => {
+      onClick={async () => {
         await supabase.auth.signInWithOAuth({
-          provider: "github",
+          provider: 'github',
           options: {
-            redirectTo: "http://localhost:3000/auth/callback"
-          }
-        })
+            redirectTo: 'http://localhost:3000/auth/callback',
+          },
+        });
       }}
-      >Login</Button>
-
-
-  )
+    >
+      Login
+    </Button>
+  );
 }

@@ -1,17 +1,17 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import localFont from 'next/font/local'
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import localFont from 'next/font/local';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 const cosmic = localFont({
-  src: "../fonts/cosmic.ttf",
+  src: '../fonts/cosmic.ttf',
   variable: '--font-cosmic',
-})
+});
 
 export const metadata: Metadata = {
-  title: "Cosmos✨  ",
-  description: "Cosmos is a low-fi coding project planner for developers.",
+  title: 'Cosmos✨  ',
+  description: 'Cosmos is a low-fi coding project planner for developers.',
 };
 
 export default function RootLayout({
@@ -21,7 +21,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} ${cosmic.variable} bg-appBackground`}>{children}</body>
+      <body
+        className={`${inter.className} ${cosmic.variable} bg-appBackground`}
+      >
+        {children}
+      </body>
     </html>
   );
 }

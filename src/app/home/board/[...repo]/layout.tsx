@@ -1,11 +1,15 @@
-import React from 'react'
+import React from 'react';
 import Navbar from '@/components/dashboard_components/Navbar';
 
-export default function BoardLayout({children}: {children: React.ReactNode}) {
+export default function BoardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <section className='flex flex-col h-screen'>
-    <Navbar/>
-    {children}
-  </section>
-  )
+    <section className="flex flex-col h-screen">
+      <Navbar />
+      {children}
+    </section>
+  );
 }
