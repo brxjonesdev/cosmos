@@ -7,22 +7,28 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 
 export default function KanbanUpdates() {
+  const styles = {
+    noUpdates: '',
+    updates: '',
+  };
+  const updates = [
+    {
+      title: 'Update 1',
+      description: 'This is a test of the card description component.',
+      content: 'Content goes here',
+    },
+  ];
   return (
-    <Card className="h-full flex flex-col">
-      <CardHeader>
-        <CardTitle>Repo Updates</CardTitle>
-        <CardDescription>
-          Commits, PRs, and Issues will be shown here, if you have Cosmos
-          installed in your repo.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="flex-grow bg-black/10 mx-6 mb-6 rounded-xl flex items-center justify-center">
-        <div>
-          <p className="text-black/30">No updates yet. Go code something!</p>
-        </div>
-      </CardContent>
-    </Card>
+    <section className="bg-black/5 px-1 py-2 rounded-xl ">
+      <div className="flex items-center h-full gap-3">
+        <Badge className="bg-purple-300 min-w-fit p-2">New Commit</Badge>
+        <p className="text-sm  text-black/50">
+          This is a long example of a commit message that spans multiple lines.
+        </p>
+      </div>
+    </section>
   );
 }

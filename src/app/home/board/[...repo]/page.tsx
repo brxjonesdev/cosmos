@@ -28,13 +28,8 @@ export default async function page({
   const repoDetails = await getRepoDetails();
 
   return (
-    <div className="grid grid-cols-12 grid-rows-5 gap-4 flex-grow m-8 mt-0 rounded-2xl">
-      <div className="col-span-9 row-span-5 col-start-4 row-start-1  rounded-lg">
-        <KanbanBoard />
-      </div>
-      <div className="col-span-3 row-span-5  rounded-lg">
-        <KanbanUpdates />
-      </div>
+    <div className="gap-4 mx-8 mb-8 rounded-2xl flex h-dvh">
+      <KanbanBoard />
     </div>
   );
 }

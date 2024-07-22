@@ -7,7 +7,7 @@ export default function BoardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <section className="flex flex-col h-screen">
+    <section className="flex flex-col h-dvh ">
       <Navbar />
       {children}
     </section>
